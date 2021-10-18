@@ -1,0 +1,116 @@
+plugins {
+    id 'org.javamodularity.moduleplugin' version '1.8.8'
+    id 'com.diffplug.gradle.spotless' version '3.25.0'
+}
+
+allprojects {
+
+    group 'org.acme'
+    version '1.0-SNAPSHOT'
+
+    plugins.withType(JavaLibraryPlugin).configureEach {
+        java {
+            modularity.inferModulePath = true
+        }
+    }
+
+    plugins.withType(JavaLibraryPlugin).whenPluginAdded {
+        dependencies {
+            constraints {
+                testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+                testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+                testImplementation 'org.assertj:assertj-core:3.18.0'
+                testImplementation 'org.mockito:mockito-inline:3.4.4'
+            }
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'jacoco'
+    apply plugin: 'maven-publish'
+    apply plugin: 'org.javamodularity.moduleplugin'
+    apply plugin: 'com.diffplug.gradle.spotless'
+
+    repositories {
+        mavenCentral()
+        maven {
+            url = "https://repo.maven.apache.org/maven2"
+        }
+    }
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+        testImplementation 'org.assertj:assertj-core'
+        testImplementation 'org.mockito:mockito-inline'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    jacoco {
+        toolVersion = "0.8.6"
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled false
+            csv.enabled false
+            html.enabled true
+        }
+    }
+    jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                element = "CLASS"
+                limit {
+                    counter = "LINE"
+                    value = "COVEREDRATIO"
+                    minimum = 1.0
+                }
+                limit {
+                    counter = "INSTRUCTION"
+                    value = "COVEREDRATIO"
+                    minimum = 1.0
+                }
+
+                excludes = [
+                ]
+            }
+
+        }
+
+        spotless {
+
+            lineEndings = "unix"
+
+            java {
+                target fileTree('.') {
+                    include "**/src/main/java/**/*.java"
+                    include "**/src/test/java/**/*.java"
+                }
+                removeUnusedImports()
+                trimTrailingWhitespace()
+                endWithNewline()
+            }
+
+            groovyGradle {
+                target files(
+                        fileTree('.') {
+                            include "*.gradle"
+                        })
+                        .from("$rootDir/build.gradle")
+                endWithNewline()
+            }
+        }
+
+        jacocoTestCoverageVerification.dependsOn jacocoTestReport
+        check.dependsOn spotlessCheck, jacocoTestCoverageVerification
+
+    }
+
+
+}

@@ -1,0 +1,14 @@
+plugins {
+    id "application"
+}
+
+application {
+    applicationName = "acme-app"
+    mainClass = "org.acme.app.Main"
+    mainModule = "acme.app"
+    startScripts.enabled = true
+}
+
+dependencies {
+    implementation project(':sample-core')
+}

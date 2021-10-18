@@ -1,0 +1,6 @@
+rootProject.name = 'jigsaw-sample'
+include 'gateway-api'
+include 'sample-gateway'
+include 'sample-core'
+include 'sample-app'
+
