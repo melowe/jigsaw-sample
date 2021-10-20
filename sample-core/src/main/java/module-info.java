@@ -3,7 +3,7 @@ module acme.sample {
 
     exports org.acme.core;
 
-    uses org.acme.gateway.Gateway;
+    uses org.acme.core.SomeBusinessObject;
 
     provides org.acme.core.SomeBusinessObject with
             org.acme.core.internal.SomeBusinessObjectProvider;

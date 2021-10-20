@@ -1,0 +1,12 @@
+
+dependencies {
+    api project(':gateway-api')
+
+    implementation 'io.vertx:vertx-core'
+    implementation 'io.vertx:vertx-web-client'
+    testImplementation 'io.vertx:vertx-junit5'
+}
+
+jacocoTestCoverageVerification {
+    enabled = false
+}

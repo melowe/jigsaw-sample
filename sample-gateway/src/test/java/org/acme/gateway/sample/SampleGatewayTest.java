@@ -7,9 +7,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SampleGatewayTest {
 
     @Test
-    void status() {
+    void statusAndType() {
         SampleGateway gateway = new SampleGateway();
         assertThat(gateway.status()).isEqualTo("Sample Status");
+        assertThat(gateway.type()).isEqualTo("Sample");
     }
+
 
 }

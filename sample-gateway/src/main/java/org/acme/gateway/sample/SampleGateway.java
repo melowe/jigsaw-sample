@@ -7,4 +7,10 @@ public class SampleGateway implements Gateway {
     public String status() {
         return "Sample Status";
     }
+
+    @Override
+    public String type() {
+        return "Sample";
+    }
+
 }

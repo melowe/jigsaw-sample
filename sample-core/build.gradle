@@ -2,4 +2,5 @@
 dependencies {
     api project(':gateway-api')
     implementation project(':sample-gateway')
+    implementation project(':http-gateway')
 }

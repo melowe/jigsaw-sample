@@ -3,4 +3,5 @@ include 'gateway-api'
 include 'sample-gateway'
 include 'sample-core'
 include 'sample-app'
+include 'http-gateway'
 

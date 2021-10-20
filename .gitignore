@@ -11,3 +11,5 @@
 /sample-gateway/build/
 /sample-gateway/build/classes/java/main/
 /sample-gateway/build/classes/java/test/
+/.idea/
+/.gradle/
